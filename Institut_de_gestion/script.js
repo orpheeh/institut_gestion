@@ -50,7 +50,7 @@ async function finish() {
 }
 
 async function fetchData(data){
-    const res = await fetch('http://localhost:3000', {
+    const res = await fetch('http://igs.orpheenve.xyz', {
         method: 'POST',
         headers: {
             'content-type': 'application/json'

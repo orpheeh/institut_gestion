@@ -1,0 +1,6 @@
+version: "2"
+services:
+    ig-web:
+        build: .
+        ports: 
+            - "1127:3000"
