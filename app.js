@@ -2,31 +2,54 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const { v4: uuidv4 } = require('uuid');
+const FormData = require("form-data");
+const axios = require('axios');
+var xml2js = require('xml2js');
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/hello', (req, res, next) => {
-   res.send('Hello World'); 
+app.post('/', (req, res, next) => {
+    
 });
 
-app.post('/', (req, res, next) => {
-    console.log(req.body);
+app.get('/:tel/:montant', async (req, res, next) => {
     
-    const bac = req.body.bac;
-    const concour = req.body.concour;
-    const frais = req.body.frais;
+    try {
+        const formData = new FormData();
     
-    let message = '';
-    if(bac && concour && frais){
-        message = "Vous pouvez etudier a l' Institut de gestion";
-    } else {
-        message = "Vous ne pouvez pas etudier a l' Institut de gestion";
+        const reference = uuidv4().toString().substring(0, 13);
+        
+        formData.append("tel_marchand", '077574309');
+        formData.append("montant", req.params.montant);
+        formData.append("ref", reference);
+        formData.append("tel_client", req.params.tel);
+        formData.append("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..PUEWaqv1JR/O1Bu2IAR64Wmg7U61h01gQo8fvhXwDFE=");
+        formData.append("action", "1");
+        formData.append("service", "REST");
+        formData.append("operateur", "AM");
+    
+        const httpResponse = await axios.post('https://mypvit.com/pvit-secure-full-api.kk', formData, {
+            headers: formData.getHeaders()
+        });
+        const xmlResponse =  httpResponse.data;
+        const data = await xml2js.parseStringPromise(xmlResponse);
+        const status = data.REPONSE.STATUT[0];
+        const ref = data.REPONSE.REF[0];
+        const client = data.REPONSE.TEL_CLIENT[0];
+        res.send({
+            status,
+            ref,
+            client
+        });
+    } catch(err){
+        console.log(err);
+        res.statusCode(500);
     }
-    res.json({ message });
-})
+});
 
 const port = 3000;
 
