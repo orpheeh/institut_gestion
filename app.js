@@ -9,20 +9,42 @@ var xml2js = require('xml2js');
 
 const app = express();
 
+var options = {
+  inflate: true,
+  limit: '100kb',
+  type: 'application/octet-stream'
+};
+
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.raw(options));
 app.use(cors());
 
-app.post('/', (req, res, next) => {
-    
+app.use(function(req, res, next) {
+  req.rawBody = '';
+  req.setEncoding('utf8');
+
+  req.on('data', function(chunk) { 
+    req.rawBody += chunk;
+  });
+
+  req.on('end', function() {
+    next();
+  });
+});
+
+app.post('/paiement', (req, res, next) => {
+    console.log(req.rawBody);
+    console.log(req.body);
 });
 
 app.get('/:tel/:montant', async (req, res, next) => {
-    
+
     try {
         const formData = new FormData();
-    
+
         const reference = uuidv4().toString().substring(0, 13);
-        
+ 
         formData.append("tel_marchand", '077574309');
         formData.append("montant", req.params.montant);
         formData.append("ref", reference);
