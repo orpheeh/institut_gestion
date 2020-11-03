@@ -1,0 +1,14 @@
+Mot de passe incorrecte
+
+<REPONSE>
+    <INTERFACEID>BAKOAI</INTERFACEID>
+    <REF>e76aad58-eeec</REF>
+    <TYPE>1</TYPE>
+    <STATUT>0</STATUT>
+    <OPERATEUR>AM</OPERATEUR>
+    <TEL_CLIENT>077598300</TEL_CLIENT>
+    <TOKEN></TOKEN>
+    <AGENT>077598300</AGENT>
+    <MESSAGE>Transaction id is invalid</MESSAGE>
+</REPONSE>
+
