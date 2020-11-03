@@ -1,6 +1,12 @@
 version: "2"
 services:
-    ig-web:
+    pvit-web:
+        restart: always
         build: .
         ports: 
             - "1127:3000"
+        links:
+            - pvitredis
+    pvitredis:
+        restart: always
+        image: redis
