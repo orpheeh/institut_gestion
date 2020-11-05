@@ -3,6 +3,8 @@ FROM node:12
 # Create app directory
 WORKDIR /usr/src/app
 
+ENV REDIS_HOST 'pvitredis'
+
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)

@@ -4,7 +4,7 @@ services:
         restart: always
         build: .
         ports: 
-            - "1127:3000"
+            - "1629:3000"
         links:
             - pvitredis
     pvitredis:
