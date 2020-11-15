@@ -17,7 +17,8 @@ app.use(bodyParser.raw(options));
 app.use(rawBody.raw);
 
 app.post('/paiement', controller.callack);
-app.get('/paiement/:uid/:tel/:montant/:token', controller.initTransaction);
+app.get('/paiement/:uid/:tel/:montant/:token', controller.initTransactionParams);
+app.post('/paiement/secure', controller.initTransactionBody);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log('PVIT paiement start at port ' + port));
